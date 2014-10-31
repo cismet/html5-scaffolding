@@ -17,6 +17,7 @@ module.exports = function (grunt) {
     // TODO: find a way for more convenient configuration
     directivesMainModuleName = '';
 
+    // registered in package task
     customCopy = {
     };
 
