@@ -3,7 +3,7 @@
 wget https://github.com/cismet/html5-scaffolding/tarball/t1 -O scaffolding.tar.gz
 tar xzf scaffolding.tar.gz
 
-cp -R ./cismet-html5-scaffolding-*/example/* .
+cp -R ./cismet-html5-scaffolding-*/example/. .
 
 echo -n "What's the name of the new project? (myAngularApp): "
 read name
