@@ -8,7 +8,7 @@ Use it
 No git, npm, grunt, yo, whatever needed, simply do
 
 ```sh
-wget https://raw.githubusercontent.com/cismet/html5-scaffolding/0.1.0/installer.sh && \
+wget https://raw.githubusercontent.com/cismet/html5-scaffolding/v0.1.0/installer.sh && \
 chmod u+x installer.sh && \
 ./installer.sh && \
 npm install && \
