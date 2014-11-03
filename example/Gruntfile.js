@@ -695,6 +695,12 @@ module.exports = function (grunt) {
                     fs.utimesSync(absDist + '/' + files[i], statSrc.atime, statSrc.mtime);
                 }
             }
+            
+            grunt.file.setBase(gruntDir + '/' + grunt.config.get('targetMin'));
+            files = grunt.file.expand(['scripts/*', 'styles/*']);
+            for(i = 0; i < files.length; ++i) {
+                grunt.file.copy(files[i], absDist + '/' + files[i]);
+            }
         } finally {
             grunt.file.setBase(gruntDir);
         }
