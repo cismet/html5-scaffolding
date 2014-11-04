@@ -599,19 +599,17 @@ module.exports = function (grunt) {
      * sync karma conf with index.html
      */
     grunt.registerTask('updateKarmaConfAndRun', function () {
-        var htmlFiles, indexhtml, jsFiles, karmaconf, match, mockFiles, regex, sep, specFiles, testFiles;
+        var htmlFiles, indexhtml, jsFiles, karmaconf, match, regex, sep, specFiles, testFiles;
         
         specFiles = grunt.file.expand(grunt.config.get('testSpec') + '/**/*.js');
-        mockFiles = grunt.file.expand(grunt.config.get('testMock') + '/**/*.js');
         
-        if (specFiles.length === 0 && mockFiles.length === 0) {
+        if (specFiles.length === 0) {
             grunt.log.writeln('no test files available, skipping tests');
             
             return true;
         }
         
         grunt.log.writeln("found " + specFiles.length + " spec files");
-        grunt.log.writeln("found " + mockFiles.length + " mock files");
         
         indexhtml = grunt.file.read(grunt.config.get('targetDist') + '/index.html');
         
@@ -630,19 +628,14 @@ module.exports = function (grunt) {
         testFiles = "    files: [\n        '" 
                 + jsFiles.join(sep)
                 + sep
+                + grunt.config.get('targetDist') + '/bower_components/angular-mocks/angular-mocks.js'
+                + sep
                 + htmlFiles.join(sep);
         
         if (specFiles.length > 0) {
             testFiles = testFiles
                     + sep
                     + specFiles.join(sep);
-        }
-        if (mockFiles.length > 0) {
-            testFiles = testFiles
-                    + sep
-                    + grunt.config.get('targetDist') + '/bower_components/angular-mocks/angular-mocks.js'
-                    + sep
-                    + mockFiles.join(sep);
         }
         
         testFiles = testFiles + "'\n    ]";
