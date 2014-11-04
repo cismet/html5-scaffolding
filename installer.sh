@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wget https://api.github.com/repos/cismet/html5-scaffolding/tarball/v0.1.3 -O scaffolding.tar.gz
+wget https://api.github.com/repos/cismet/html5-scaffolding/tarball/v0.1.4 -O scaffolding.tar.gz
 tar xzf scaffolding.tar.gz
 
 cp -R ./cismet-html5-scaffolding-*/example/. .

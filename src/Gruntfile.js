@@ -4,6 +4,13 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+/*
+ * ===================================================================================================================
+ * ================================================ Grunt build file =================================================
+ * ===================================================================================================================
+ * ================================================  version 0.1.4   =================================================
+ * ===================================================================================================================
+ */
 module.exports = function (grunt) {
     'use strict';
 
@@ -299,7 +306,7 @@ module.exports = function (grunt) {
                             }
                         },
                         bootstrap : {
-                            versions: ['3.1.1'],
+                            versions: ['3.3.0', '3.2.0', '3.1.1'],
                             url: function (version) {
                                 return '//maxcdn.bootstrapcdn.com/bootstrap/' + version + '/js/bootstrap.min.js';
                             }
@@ -550,12 +557,14 @@ module.exports = function (grunt) {
         
         if (now - lastCheck > 1000 * 60 * 60) {
             grunt.log.writeln('last check over an hour ago, checking dependencies');
-            if(grunt.task.run(['npm-install', 'bower:install']) === true) {
-                grunt.file.write(filename, JSON.stringify({lastCheck: now}));
-            }
+            grunt.task.run(['npm-install', 'bower:install', 'updateInstallCheckTime:' + now + ':' + filename]);
         } else {
             grunt.log.writeln('last check less than an hour ago, skipping dependency check');
         }
+    });
+    
+    grunt.registerTask('updateInstallCheckTime', function() {
+        grunt.file.write(arguments[1], JSON.stringify({lastCheck: Number(arguments[0])}));
     });
     
     /*
@@ -599,19 +608,17 @@ module.exports = function (grunt) {
      * sync karma conf with index.html
      */
     grunt.registerTask('updateKarmaConfAndRun', function () {
-        var htmlFiles, indexhtml, jsFiles, karmaconf, match, mockFiles, regex, sep, specFiles, testFiles;
+        var htmlFiles, indexhtml, jsFiles, karmaconf, match, regex, sep, specFiles, testFiles;
         
         specFiles = grunt.file.expand(grunt.config.get('testSpec') + '/**/*.js');
-        mockFiles = grunt.file.expand(grunt.config.get('testMock') + '/**/*.js');
         
-        if (specFiles.length === 0 && mockFiles.length === 0) {
+        if (specFiles.length === 0) {
             grunt.log.writeln('no test files available, skipping tests');
             
             return true;
         }
         
         grunt.log.writeln("found " + specFiles.length + " spec files");
-        grunt.log.writeln("found " + mockFiles.length + " mock files");
         
         indexhtml = grunt.file.read(grunt.config.get('targetDist') + '/index.html');
         
@@ -630,19 +637,14 @@ module.exports = function (grunt) {
         testFiles = "    files: [\n        '" 
                 + jsFiles.join(sep)
                 + sep
+                + grunt.config.get('targetDist') + '/bower_components/angular-mocks/angular-mocks.js'
+                + sep
                 + htmlFiles.join(sep);
         
         if (specFiles.length > 0) {
             testFiles = testFiles
                     + sep
                     + specFiles.join(sep);
-        }
-        if (mockFiles.length > 0) {
-            testFiles = testFiles
-                    + sep
-                    + grunt.config.get('targetDist') + '/bower_components/angular-mocks/angular-mocks.js'
-                    + sep
-                    + mockFiles.join(sep);
         }
         
         testFiles = testFiles + "'\n    ]";
