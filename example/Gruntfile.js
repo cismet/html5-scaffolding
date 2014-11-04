@@ -550,12 +550,14 @@ module.exports = function (grunt) {
         
         if (now - lastCheck > 1000 * 60 * 60) {
             grunt.log.writeln('last check over an hour ago, checking dependencies');
-            if(grunt.task.run(['npm-install', 'bower:install']) === true) {
-                grunt.file.write(filename, JSON.stringify({lastCheck: now}));
-            }
+            grunt.task.run(['npm-install', 'bower:install', 'updateInstallCheckTime:' + now + ':' + filename]);
         } else {
             grunt.log.writeln('last check less than an hour ago, skipping dependency check');
         }
+    });
+    
+    grunt.registerTask('updateInstallCheckTime', function() {
+        grunt.file.write(arguments[1], JSON.stringify({lastCheck: Number(arguments[0])}));
     });
     
     /*
