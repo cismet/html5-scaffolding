@@ -24,6 +24,7 @@ module.exports = function(config) {
         'target/dist/scripts/services/myService.js',
         'target/dist/bower_components/angular-mocks/angular-mocks.js',
         'app/templates/my-directive.html',
+        'app/views/myView.html',
         'test/spec/controllers/myController.js'
     ],
 
