@@ -59,6 +59,7 @@ module.exports = function(config) {
     singleRun: true,
     
     preprocessors: {
+        '**/*.json': ['gb-json2js'],
         '**/templates/**/*.html': ['ng-html2js'],
         '**/views/**/*.html': ['ng-html2js']
     },
