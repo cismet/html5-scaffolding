@@ -44,6 +44,7 @@ module.exports = function (grunt) {
         src: 'app',
         dist: 'dist',
         templates: '<%= src %>/templates',
+        views: '<%= src %>/views',
 
         test: 'test',
         testSpec: '<%= test %>/spec',
@@ -403,8 +404,7 @@ module.exports = function (grunt) {
         // test task
         karma: {
             unit: {
-                configFile: 'karma.conf.js',
-                singleRun: true
+                configFile: 'karma.conf.js'
             }
         }
     });
@@ -608,7 +608,7 @@ module.exports = function (grunt) {
      * sync karma conf with index.html
      */
     grunt.registerTask('updateKarmaConfAndRun', function () {
-        var htmlFiles, indexhtml, jsFiles, karmaconf, match, regex, sep, specFiles, testFiles;
+        var indexhtml, jsFiles, karmaconf, match, regex, sep, specFiles, templateFiles, testFiles, viewFiles;
         
         specFiles = grunt.file.expand(grunt.config.get('testSpec') + '/**/*.js');
         
@@ -631,7 +631,8 @@ module.exports = function (grunt) {
             match = regex.exec(indexhtml);
         }
         
-        htmlFiles = grunt.file.expand(grunt.config.get('templates') + '/**/*.html');
+        templateFiles = grunt.file.expand(grunt.config.get('templates') + '/**/*.html');
+        viewFiles = grunt.file.expand(grunt.config.get('views') + '/**/*.html');
         
         sep = "',\n        '";
         testFiles = "    files: [\n        '" 
@@ -639,7 +640,9 @@ module.exports = function (grunt) {
                 + sep
                 + grunt.config.get('targetDist') + '/bower_components/angular-mocks/angular-mocks.js'
                 + sep
-                + htmlFiles.join(sep);
+                + templateFiles.join(sep)
+                + sep
+                + viewFiles.join(sep);
         
         if (specFiles.length > 0) {
             testFiles = testFiles

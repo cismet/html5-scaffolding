@@ -24,6 +24,7 @@ module.exports = function(config) {
         'target/dist/scripts/services/myService.js',
         'target/dist/bower_components/angular-mocks/angular-mocks.js',
         'app/templates/my-directive.html',
+        'app/views/myView.html',
         'test/spec/controllers/myController.js'
     ],
 
@@ -56,6 +57,15 @@ module.exports = function(config) {
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
     singleRun: true,
+    
+    preprocessors: {
+        '**/templates/**/*.html': ['ng-html2js'],
+        '**/views/**/*.html': ['ng-html2js']
+    },
+    
+    ngHtml2JsPreprocessor: {
+        moduleName: 'templates'
+    },
     
     reporters: ['progress', 'junit'],
     junitReporter: {
