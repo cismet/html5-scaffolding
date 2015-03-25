@@ -49,6 +49,7 @@ module.exports = function (grunt) {
         test: 'test',
         testSpec: '<%= test %>/spec',
         testMock: '<%= test %>/mock',
+        testRes: '<%= test %>/res',
 
         target: 'target',
         targetDist: '<%= target %>/dist',
@@ -650,7 +651,15 @@ module.exports = function (grunt) {
                     + specFiles.join(sep);
         }
         
-        testFiles = testFiles + "'\n    ]";
+        // requires the gb-json2js preprocessor or similar
+        testFiles = testFiles 
+                + "',\n        "
+                + "{pattern: '" + grunt.config.get('testRes') + "/**/*.json',"
+                + " watched: true,"
+                + " included: true,"
+                + " served: true}";
+        
+        testFiles = testFiles + "\n    ]";
         
         grunt.verbose.writeln('created files entry:\n' + testFiles);
         
