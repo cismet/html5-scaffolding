@@ -57,6 +57,15 @@ module.exports = function(config) {
     // if true, it capture browsers, run tests and exit
     singleRun: true,
     
+    preprocessors: {
+        '**/templates/**/*.html': ['ng-html2js'],
+        '**/views/**/*.html': ['ng-html2js']
+    },
+    
+    ngHtml2JsPreprocessor: {
+        moduleName: 'templates'
+    },
+    
     reporters: ['progress', 'junit'],
     junitReporter: {
         outputFile: 'test-results.xml'
