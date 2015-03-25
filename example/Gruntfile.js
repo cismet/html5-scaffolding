@@ -622,7 +622,7 @@ module.exports = function (grunt) {
         
         indexhtml = grunt.file.read(grunt.config.get('targetDist') + '/index.html');
         
-        regex = /<script src="(.*\.js)">/g;
+        regex = /<script.+src="(.*\.js)".*>/g;
         match = regex.exec(indexhtml);
         
         jsFiles = [];
